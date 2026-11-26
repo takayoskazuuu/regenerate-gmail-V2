@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Virtual Email & Live OTP Receiver — TAKAAA</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-body: #050814;
-      --bg-card: rgba(13, 20, 38, 0.92);
-      --bg-input: rgba(22, 33, 62, 0.9);
-      --border: rgba(148, 163, 184, 0.16);
+      --bg-body: #050811;
+      --bg-card: rgba(13, 20, 38, 0.72);
+      --bg-input: rgba(24, 34, 56, 0.85);
+      --border: rgba(148, 163, 184, 0.14);
+      --border-hover: rgba(16, 185, 129, 0.45);
       --primary: #10b981;
       --primary-light: #34d399;
-      --secondary: #38bdf8;
-      --gold: #fbbf24;
+      --secondary: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --warning: #f59e0b;
       --danger: #f87171;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
@@ -27,37 +33,79 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-body);
       color: var(--text-main);
       line-height: 1.6;
-      padding: 20px 14px 52px;
+      padding: 20px 16px 56px;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
-      background-image:
-        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.22) 0%, transparent 42%),
-        radial-gradient(circle at 88% 88%, rgba(56, 189, 248, 0.2) 0%, transparent 45%),
-        radial-gradient(circle at 50% 45%, rgba(251, 191, 36, 0.08) 0%, transparent 50%);
     }
 
-    #particle-canvas {
+    /* Interactive Particle Background */
+    #particleCanvas {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
+      z-index: -2;
       pointer-events: none;
     }
 
-    .container {
-      max-width: 820px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
+    /* Ambient Glow Orbs */
+    .ambient-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(130px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.42;
+      animation: floatOrb 14s ease-in-out infinite alternate;
     }
 
-    /* Top Luxury Bar */
+    .orb-1 {
+      width: 420px;
+      height: 420px;
+      top: -130px;
+      left: -110px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.42), transparent 70%);
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      bottom: -140px;
+      right: -100px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.36), transparent 70%);
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      top: 45%;
+      left: 55%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.22), transparent 70%);
+      animation-delay: -9s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(25px, -20px) scale(1.08); }
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 0 auto;
+      animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -65,11 +113,13 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 24px;
-      padding: 12px 16px;
-      background: rgba(13, 20, 38, 0.94);
-      border: 1px solid rgba(52, 211, 153, 0.25);
+      padding: 10px 16px;
+      background: rgba(13, 20, 38, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     }
 
     .top-left {
@@ -85,14 +135,13 @@
       gap: 6px;
       font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.1em;
-      padding: 6px 13px;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
       border-radius: 999px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(56, 189, 248, 0.24));
-      border: 1px solid rgba(52, 211, 153, 0.45);
-      color: #ffffff;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(59, 130, 246, 0.22));
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: var(--primary-light);
       text-transform: uppercase;
-      box-shadow: 0 0 18px rgba(16, 185, 129, 0.25);
     }
 
     .live-status {
@@ -103,15 +152,16 @@
       font-weight: 600;
       padding: 5px 12px;
       border-radius: 999px;
-      background-color: rgba(16, 185, 129, 0.14);
+      background-color: rgba(16, 185, 129, 0.1);
       color: var(--primary-light);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      transition: all 0.3s ease;
     }
 
     .live-status.error {
-      background-color: rgba(248, 113, 113, 0.16);
+      background-color: rgba(248, 113, 113, 0.12);
       color: var(--danger);
-      border-color: rgba(248, 113, 113, 0.38);
+      border-color: rgba(248, 113, 113, 0.35);
     }
 
     .dot-pulse {
@@ -129,91 +179,88 @@
     }
 
     .btn-donate-top {
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.24), rgba(251, 113, 133, 0.16));
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(251, 113, 133, 0.14));
       color: #fda4af;
-      border: 1px solid rgba(244, 63, 94, 0.45);
+      border: 1px solid rgba(244, 63, 94, 0.4);
       padding: 6px 14px;
       font-size: 0.78rem;
       border-radius: 999px;
     }
 
+    .btn-donate-top:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #ffffff;
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
     header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
 
     .creator-tag {
       display: inline-block;
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--gold);
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      padding: 4px 14px;
-      border-radius: 999px;
-      margin-bottom: 10px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .creator-tag span {
+      color: var(--primary-light);
     }
 
     header h1 {
-      font-size: 1.9rem;
+      font-size: 2rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       line-height: 1.2;
       margin-bottom: 8px;
-      text-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
     }
 
     header h1 .gradient-text {
-      background: linear-gradient(135deg, #34d399 0%, #38bdf8 55%, #fbbf24 100%);
+      background: linear-gradient(135deg, #34d399 0%, #10b981 45%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     header p {
       color: var(--text-muted);
-      font-size: 0.9rem;
-      max-width: 580px;
+      font-size: 0.93rem;
+      max-width: 600px;
       margin: 0 auto;
     }
 
-    /* 3D Luxury Elevated Card */
     .card {
-      background: linear-gradient(160deg, rgba(16, 25, 48, 0.95) 0%, rgba(9, 14, 28, 0.97) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-top: 1px solid rgba(52, 211, 153, 0.4);
+      background: var(--bg-card);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid var(--border);
       border-radius: 22px;
-      padding: 22px;
-      box-shadow:
-        0 22px 50px rgba(0, 0, 0, 0.75),
-        0 0 0 1px rgba(16, 185, 129, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 24px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
       margin-bottom: 20px;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
-      box-shadow:
-        0 28px 60px rgba(0, 0, 0, 0.85),
-        0 0 25px rgba(16, 185, 129, 0.14),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      border-color: rgba(148, 163, 184, 0.24);
     }
 
     .custom-builder-grid {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 14px;
       align-items: end;
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 580px) {
       .custom-builder-grid {
         grid-template-columns: 1fr;
-      }
-      header h1 {
-        font-size: 1.6rem;
       }
     }
 
@@ -233,7 +280,7 @@
     }
 
     .pattern-hint {
-      font-family: monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       color: var(--primary-light);
     }
@@ -245,11 +292,12 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 0 12px;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s ease;
     }
 
     .prefix-input-wrap:focus-within {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
     }
 
     .prefix-input {
@@ -257,7 +305,7 @@
       background: transparent;
       border: none;
       color: var(--text-main);
-      font-family: monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.88rem;
       font-weight: 600;
       padding: 11px 0;
@@ -265,13 +313,18 @@
       min-width: 0;
     }
 
+    .prefix-input::placeholder {
+      color: rgba(148, 163, 184, 0.5);
+      font-weight: 400;
+    }
+
     .suffix-preview-tag {
-      font-family: monospace;
-      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--primary-light);
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.28);
       padding: 3px 8px;
       border-radius: 7px;
       white-space: nowrap;
@@ -283,12 +336,19 @@
       color: var(--text-main);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 11px 12px;
-      font-family: monospace;
+      padding: 10px 12px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.84rem;
       font-weight: 600;
       outline: none;
+      cursor: pointer;
       height: 44px;
+      transition: all 0.25s ease;
+    }
+
+    .domain-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
     }
 
     .email-display-box {
@@ -296,17 +356,17 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      background: #060a16;
-      border: 1px solid rgba(52, 211, 153, 0.45);
+      background: linear-gradient(145deg, rgba(24, 34, 56, 0.92), rgba(15, 23, 42, 0.92));
+      border: 1px solid rgba(52, 211, 153, 0.38);
       border-radius: 14px;
       padding: 14px 16px;
       margin-bottom: 14px;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.05);
     }
 
     .active-email-text {
-      font-family: monospace;
-      font-size: 0.96rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--primary-light);
       overflow: hidden;
@@ -319,8 +379,8 @@
       display: none;
       font-size: 0.8rem;
       color: #fca5a5;
-      background: rgba(239, 68, 68, 0.14);
-      border: 1px solid rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
       border-radius: 10px;
       padding: 10px 12px;
       margin-bottom: 14px;
@@ -332,19 +392,22 @@
       gap: 10px;
     }
 
-    button {
+    button, .btn-link {
       padding: 12px 16px;
       border: none;
       border-radius: 12px;
       font-family: inherit;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 7px;
-      transition: all 0.18s ease;
+      text-decoration: none;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
     }
 
     button:active {
@@ -357,25 +420,29 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #34d399 0%, #10b981 55%, #059669 100%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #032615;
       flex: 1;
-      min-width: 150px;
-      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      min-width: 155px;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.28);
     }
 
-    .btn-gold {
-      background: linear-gradient(135deg, #fde047 0%, #fbbf24 55%, #d97706 100%);
-      color: #1f1300;
-      flex: 1;
-      min-width: 160px;
-      box-shadow: 0 8px 22px rgba(251, 191, 36, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.38);
     }
 
     .btn-save {
       background: rgba(245, 158, 11, 0.16);
       color: #fcd34d;
       border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-save:hover:not(:disabled) {
+      background: #f59e0b;
+      color: #0f172a;
+      transform: translateY(-1px);
     }
 
     .btn-save.full-warning {
@@ -385,69 +452,192 @@
     }
 
     .btn-secondary {
-      background: rgba(56, 189, 248, 0.16);
+      background: rgba(59, 130, 246, 0.16);
       color: #93c5fd;
-      border: 1px solid rgba(56, 189, 248, 0.38);
+      border: 1px solid rgba(59, 130, 246, 0.38);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--secondary);
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .btn-copy-main {
       padding: 8px 14px;
       font-size: 0.82rem;
-      background: linear-gradient(135deg, #34d399, #10b981);
+      background-color: var(--primary);
       color: #032615;
       border-radius: 9px;
       flex-shrink: 0;
     }
 
-    /* Roblox Gmail Helper Section */
-    .roblox-box {
-      border-top: 1px solid rgba(251, 191, 36, 0.45);
-      background: linear-gradient(160deg, rgba(24, 21, 12, 0.94) 0%, rgba(11, 15, 28, 0.97) 100%);
+    .btn-copy-main:hover {
+      background-color: var(--primary-light);
     }
 
-    .roblox-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--gold);
+    /* Quick Registration Kit (Roblox, Game, App & Web) */
+    .kit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .kit-title {
+      font-size: 0.96rem;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
     }
 
-    .roblox-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+    .kit-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.18);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.38);
     }
 
-    .alias-list {
+    .kit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .cred-box {
+      background: rgba(24, 34, 56, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 12px;
     }
 
-    .alias-item {
+    .cred-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cred-value-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      background: #070b15;
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      padding: 9px 12px;
-      border-radius: 11px;
+      gap: 8px;
     }
 
-    .alias-email {
-      font-family: monospace;
-      font-size: 0.82rem;
+    .cred-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cred-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-mini {
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-mini:hover {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+      color: var(--primary-light);
+    }
+
+    .alias-helper-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed rgba(139, 92, 246, 0.35);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .alias-helper-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .alias-helper-top span {
+      font-size: 0.8rem;
       font-weight: 600;
-      color: #fef3c7;
+      color: #c4b5fd;
+    }
+
+    .alias-input-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .alias-input {
+      flex: 1;
+      min-width: 210px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      outline: none;
+    }
+
+    .alias-input:focus {
+      border-color: var(--accent-purple);
+    }
+
+    .alias-result-bar {
+      display: none;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: rgba(139, 92, 246, 0.14);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .alias-result-bar.visible {
+      display: flex;
+    }
+
+    .alias-result-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #ddd6fe;
       word-break: break-all;
     }
 
-    /* Vault */
+    /* Saved Accounts Vault (Max 3) */
     .vault-header {
       display: flex;
       justify-content: space-between;
@@ -465,6 +655,12 @@
       gap: 8px;
     }
 
+    .vault-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .btn-clear-all {
       padding: 5px 10px;
       font-size: 0.74rem;
@@ -474,14 +670,19 @@
       border: 1px solid rgba(248, 113, 113, 0.32);
     }
 
+    .btn-clear-all:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
     .vault-slots {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 10px;
     }
 
     .slot-card {
-      background: #080e1d;
+      background: rgba(24, 34, 56, 0.58);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 12px;
@@ -489,11 +690,13 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 10px;
+      transition: all 0.25s ease;
     }
 
     .slot-card.active-slot {
       border-color: var(--primary);
-      background: rgba(16, 185, 129, 0.12);
+      background: rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
     }
 
     .slot-card.empty-slot {
@@ -502,13 +705,14 @@
       justify-content: center;
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.78rem;
-      min-height: 92px;
+      font-size: 0.8rem;
+      min-height: 98px;
     }
 
     .slot-top {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-size: 0.72rem;
       color: var(--text-muted);
     }
@@ -519,7 +723,7 @@
     }
 
     .slot-email {
-      font-family: monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-main);
@@ -544,14 +748,38 @@
       border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
+    .btn-slot-use:hover:not(:disabled) {
+      background: var(--primary);
+      color: #032615;
+    }
+
     .btn-slot-del {
       background: rgba(239, 68, 68, 0.16);
       color: #fca5a5;
       border: 1px solid rgba(239, 68, 68, 0.38);
       flex: 0 0 auto;
+      padding: 7px 10px;
     }
 
-    /* Inbox */
+    .btn-slot-del:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .btn-slot-del.confirming {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+      animation: shake 0.25s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      75% { transform: translateX(2px); }
+    }
+
     .inbox-header {
       display: flex;
       justify-content: space-between;
@@ -567,17 +795,16 @@
       background-color: rgba(16, 185, 129, 0.15);
       color: var(--primary-light);
       border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 2px 10px;
+      padding: 3px 11px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 700;
       margin-left: 6px;
     }
 
     .timer-text {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-family: monospace;
     }
 
     .message-list {
@@ -590,22 +817,24 @@
       text-align: center;
       padding: 36px 16px;
       color: var(--text-muted);
-      font-size: 0.9rem;
-      background: #070b15;
+      font-size: 0.92rem;
+      background: rgba(24, 34, 56, 0.35);
       border: 1px dashed var(--border);
       border-radius: 14px;
     }
 
     .msg-card {
-      background: #080e1d;
+      background: rgba(24, 34, 56, 0.68);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 16px;
+      animation: fadeSlideUp 0.35s ease;
     }
 
     .msg-top {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
       gap: 10px;
       margin-bottom: 8px;
     }
@@ -625,6 +854,7 @@
       font-size: 0.96rem;
       font-weight: 700;
       margin-bottom: 8px;
+      color: var(--text-main);
     }
 
     .otp-highlight {
@@ -632,7 +862,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.14);
       border: 1px solid rgba(16, 185, 129, 0.45);
       border-radius: 10px;
       padding: 10px 14px;
@@ -640,17 +870,48 @@
     }
 
     .otp-code {
-      font-family: monospace;
-      font-size: 1.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: 0.14em;
       color: var(--primary-light);
     }
 
+    .verify-link-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(59, 130, 246, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 10px;
+    }
+
+    .verify-link-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #93c5fd;
+    }
+
+    .btn-verify-open {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      background: var(--secondary);
+      color: #ffffff;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-verify-open:hover {
+      background: #2563eb;
+    }
+
     .msg-body {
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      background: #050811;
+      background: rgba(13, 20, 38, 0.65);
       padding: 10px 12px;
       border-radius: 9px;
       white-space: pre-wrap;
@@ -665,11 +926,15 @@
       padding-top: 18px;
       border-top: 1px solid var(--border);
       color: var(--text-muted);
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+    }
+
+    footer strong {
+      color: var(--text-main);
     }
 
     .btn-donate-footer {
@@ -684,7 +949,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.86);
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(10px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -698,47 +964,104 @@
 
     .modal-box {
       background: #0f172a;
-      border: 1px solid rgba(148, 163, 184, 0.25);
+      border: 1px solid rgba(148, 163, 184, 0.2);
       border-radius: 22px;
-      max-width: 380px;
+      max-width: 400px;
       width: 100%;
       padding: 22px;
       text-align: center;
       position: relative;
+      animation: fadeSlideUp 0.3s ease;
     }
 
     .modal-close {
       position: absolute;
       top: 14px;
       right: 14px;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       padding: 0;
       border-radius: 50%;
-      background: #1e293b;
+      background: rgba(30, 41, 59, 0.9);
       color: var(--text-muted);
+    }
+
+    .modal-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(244, 63, 94, 0.16);
+      color: #fda4af;
+      margin-bottom: 8px;
+    }
+
+    .modal-box h2 {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .modal-box p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
     }
 
     .qris-frame {
       background: #ffffff;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 8px;
-      margin: 14px auto;
-      max-width: 240px;
+      margin: 0 auto 14px;
+      max-width: 280px;
     }
 
     .qris-frame img {
       width: 100%;
+      height: auto;
       display: block;
-      border-radius: 8px;
+      border-radius: 10px;
+    }
+
+    .nmid-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-actions a,
+    .modal-actions button {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.84rem;
+    }
+
+    .btn-outline {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border);
+      color: var(--text-main);
     }
 
     .toast {
       position: fixed;
       bottom: 24px;
-      right: 16px;
-      left: 16px;
-      max-width: 400px;
+      right: 24px;
+      left: 24px;
+      max-width: 420px;
       margin: 0 auto;
       text-align: center;
       background: linear-gradient(135deg, #10b981, #059669);
@@ -746,10 +1069,11 @@
       padding: 12px 20px;
       border-radius: 12px;
       font-weight: 800;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
       transform: translateY(120px);
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 1100;
     }
 
@@ -761,7 +1085,11 @@
 </head>
 <body>
 
-  <canvas id="particle-canvas"></canvas>
+  <!-- Interactive Particle Canvas & Ambient Glow -->
+  <canvas id="particleCanvas"></canvas>
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+  <div class="ambient-orb orb-3"></div>
 
   <div class="container">
     <div class="top-bar">
@@ -769,58 +1097,1049 @@
         <span class="brand-chip">⚡ TAKAAA</span>
         <div class="live-status" id="statusBadge">
           <span class="dot-pulse"></span>
-          <span id="statusText">Menghubungkan...</span>
+          <span id="apiStatusText">Auto-OTP Standby</span>
         </div>
       </div>
-      <button class="btn-donate-top" onclick="openDonateModal()">❤️ Support / QRIS</button>
+
+      <button type="button" class="btn-donate-top" id="openDonateTopBtn">♥ Donate</button>
     </div>
 
     <header>
-      <div class="creator-tag">✦ LUXURY 3D OTP & ROBLOX SUITE ✦</div>
-      <h1>Virtual Email & <span class="gradient-text">Live OTP Receiver</span></h1>
-      <p>Generator email sementara instan, penerima kode OTP otomatis, dan generator alias Gmail khusus Roblox.</p>
+      <div class="creator-tag">Official OTP & Gaming Account Kit by <span>TAKAAA</span></div>
+      <h1>Virtual Email & <span class="gradient-text">Live OTP</span> Receiver</h1>
+      <p>Format otomatis <strong>nama.tkXXXX@domain</strong>, simpan hingga 3 akun, lengkap dengan generator identitas pendaftaran Roblox, game, aplikasi, dan web.</p>
     </header>
 
-    <!-- CARD 1: TEMP MAIL GENERATOR -->
+    <!-- Card Utama Generator & Custom Prefix -->
     <div class="card">
       <div class="custom-builder-grid">
         <div class="input-group-box">
-          <label class="field-label">
-            <span>Custom Username (Opsional)</span>
-            <span class="pattern-hint">huruf/angka</span>
+          <label class="field-label" for="customPrefixInput">
+            <span>Nama Depan Sesuka Hati (Opsional)</span>
+            <span class="pattern-hint">Format: [nama].tk[acak]</span>
           </label>
           <div class="prefix-input-wrap">
-            <input type="text" id="customPrefixInput" class="prefix-input" placeholder="contoh: takaaa.pro" maxlength="24" />
-            <span class="suffix-preview-tag" id="suffixPreview">@domain</span>
+            <input
+              type="text"
+              id="customPrefixInput"
+              class="prefix-input"
+              placeholder="contoh: takaaa (kosong = acak)"
+              maxlength="24"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span class="suffix-preview-tag">.tkXXXX</span>
           </div>
         </div>
+
         <div class="input-group-box">
-          <label class="field-label"><span>Pilih Domain</span></label>
-          <select id="domainSelect" class="domain-select" onchange="updateSuffixPreview()">
-            <option value="1secmail.com">@1secmail.com</option>
+          <label class="field-label" for="domainSelect"><span>Domain Aktif</span></label>
+          <select id="domainSelect" class="domain-select">
+            <option value="sharklasers.com">@sharklasers.com</option>
+            <option value="grr.la">@grr.la</option>
+            <option value="guerrillamail.com">@guerrillamail.com</option>
+            <option value="pokemail.net">@pokemail.net</option>
+            <option value="spam4.me">@spam4.me</option>
+            <option value="guerrillamailblock.com">@guerrillamailblock.com</option>
+            <option value="guerrillamail.net">@guerrillamail.net</option>
+            <option value="guerrillamail.org">@guerrillamail.org</option>
           </select>
         </div>
       </div>
 
       <div class="email-display-box">
-        <div class="active-email-text" id="activeEmailDisplay">Membuat alamat email...</div>
-        <button class="btn-copy-main" onclick="copyText(currentEmail, 'Alamat email disalin!')">📋 Salin</button>
+        <span class="active-email-text" id="activeEmail">Menghubungkan ke server...</span>
+        <button type="button" class="btn-copy-main" id="copyEmailBtn">Salin Email</button>
       </div>
 
-      <div class="error-detail" id="errorBox"></div>
+      <div class="error-detail" id="errorDetail"></div>
 
       <div class="btn-group">
-        <button class="btn-primary" id="btnGenerate" onclick="generateNewEmail()">
-          ✨ Buat Email Baru
-        </button>
-        <button class="btn-save" id="btnSaveSlot" onclick="saveCurrentToVault()">
-          💾 Simpan (0/3)
-        </button>
-        <button class="btn-secondary" onclick="checkInbox(true)">
-          🔄 Cek Inbox
-        </button>
+        <button type="button" class="btn-primary" id="rerollEmailBtn">🎲 Buat / Reroll Email</button>
+        <button type="button" class="btn-save" id="saveEmailBtn">💾 Simpan Email (0/3)</button>
+        <button type="button" class="btn-secondary" id="refreshInboxBtn">🔄 Cek Inbox</button>
       </div>
     </div>
 
-    <!-- CARD 2: KHUSUS ROBLOX (GMAIL UNLIMITED ALIAS) -->
- 
+    <!-- Card Quick Account Kit untuk Roblox, Game, Aplikasi & Web -->
+    <div class="card">
+      <div class="kit-header">
+        <div class="kit-title">
+          <span>🎮 Quick Account Kit</span>
+          <span class="kit-badge">Roblox • Game • Web • App</span>
+        </div>
+        <button type="button" class="btn-mini" id="rerollKitBtn">🔄 Acak Identitas</button>
+      </div>
+
+      <div class="kit-grid">
+        <div class="cred-box">
+          <div class="cred-label">
+            <span>Username Siap Pakai (Roblox / Game)</span>
+            <span>3-20 huruf/angka</span>
+          </div>
+          <div class="cred-value-row">
+            <span class="cred-code" id="genUsernameText">TakaaaPlayer99</span>
+            <div class="cred-actions">
+              <button type="button" class="btn-mini" id="copyUsernameBtn">Salin</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cred-box">
+          <div class="cred-label">
+            <span>Password Kuat Otomatis</span>
+            <span>Lolos Syarat Web</span>
+          </div>
+          <div class="cred-value-row">
+            <span class="cred-code" id="genPasswordText">Tk#9482xZ!</span>
+            <div class="cred-actions">
+              <button type="button" class="btn-mini" id="copyPasswordBtn">Salin</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bypass Filter Ketat via Gmail Plus/Dot Alias -->
+      <div class="alias-helper-box">
+        <div class="alias-helper-top">
+          <span>🛡️ Mode Anti-Blokir Platform Ketat (Alias Gmail Tanpa Batas)</span>
+        </div>
+        <div class="alias-input-row">
+          <input
+            type="email"
+            id="gmailBaseInput"
+            class="alias-input"
+            placeholder="Masukkan Gmail asli Anda (contoh: nama@gmail.com)"
+            autocomplete="off"
+          />
+          <button type="button" class="btn-mini" id="genGmailAliasBtn" style="background: rgba(139, 92, 246, 0.22); color: #ddd6fe; border-color: rgba(139, 92, 246, 0.45);">
+            ✨ Buat Alias
+          </button>
+        </div>
+        <div class="alias-result-bar" id="aliasResultBar">
+          <span class="alias-result-text" id="aliasResultText">nama+tk8821@gmail.com</span>
+          <button type="button" class="btn-mini" id="copyAliasBtn">Salin Alias</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Penyimpanan Maksimal 3 Email -->
+    <div class="card">
+      <div class="vault-header">
+        <div class="vault-title">
+          <span>📌 Email Tersimpan</span>
+          <span class="badge-count" id="savedCountBadge">0 / 3 Slot</span>
+        </div>
+        <div class="vault-header-right">
+          <span class="timer-text">Hapus slot lama untuk menyimpan email baru</span>
+          <button type="button" class="btn-clear-all" id="clearAllSavedBtn" style="display: none;">🗑️ Hapus Semua</button>
+        </div>
+      </div>
+
+      <div class="vault-slots" id="savedSlotsContainer"></div>
+    </div>
+
+    <!-- Card Kotak Masuk -->
+    <div class="card">
+      <div class="inbox-header">
+        <div>
+          <strong>Kotak Masuk & OTP</strong>
+          <span class="badge-count" id="msgCount">0 Pesan</span>
+        </div>
+        <span class="timer-text" id="pollStatus">Menunggu akun aktif...</span>
+      </div>
+
+      <div class="message-list" id="messageList">
+        <div class="empty-inbox">
+          Belum ada pesan masuk. Salin alamat email di atas untuk mendaftar di Roblox, game, atau website tujuan, lalu tunggu beberapa detik hingga kode OTP atau link verifikasi muncul di sini.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>Created with ♥ by <strong>TAKAAA</strong></div>
+      <button type="button" class="btn-donate-footer" id="openDonateFooterBtn">
+        ☕ Dukung & Donate via QRIS
+      </button>
+    </footer>
+  </div>
+
+  <!-- Modal Donate QRIS -->
+  <div class="modal-overlay" id="donateModal">
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="closeDonateBtn">✕</button>
+      <div class="modal-badge">Support Developer</div>
+      <h2>Donate untuk TAKAAA</h2>
+      <p>Scan QRIS <strong>TAKAAA STORE</strong> via GoPay, DANA, OVO, ShopeePay, atau mobile banking.</p>
+
+      <div class="qris-frame">
+        <img src="qris.png" alt="QRIS TAKAAA STORE" />
+      </div>
+
+      <div class="nmid-box">
+        <span>NMID: ID1025427601535</span>
+        <button type="button" class="btn-copy-main" id="copyNmidBtn" style="padding: 4px 10px; font-size: 0.72rem;">Salin</button>
+      </div>
+
+      <div class="modal-actions">
+        <a href="qris.png" download="QRIS-TAKAAA-STORE.png" class="btn-link btn-primary">Simpan QRIS</a>
+        <button type="button" class="btn-outline" id="closeDonateBottomBtn">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Berhasil disalin!</div>
+
+  <script>
+    /* ==========================================================
+       1. LUXURY INTERACTIVE PARTICLE ENGINE
+       ========================================================== */
+    (function initParticles() {
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      const mouse = { x: null, y: null, radius: 130 };
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener('mouseout', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const particleCount = Math.min(55, Math.floor((width * height) / 22000));
+      const colors = ['rgba(52, 211, 153, 0.55)', 'rgba(56, 189, 248, 0.45)', 'rgba(167, 139, 250, 0.4)'];
+      const particles = [];
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          size: Math.random() * 2.2 + 0.8,
+          color: colors[i % colors.length]
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          // Subtle mouse repulsion
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = p.x - mouse.x;
+            const dy = p.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius && dist > 0) {
+              const force = (mouse.radius - dist) / mouse.radius;
+              p.x += (dx / dist) * force * 1.4;
+              p.y += (dy / dist) * force * 1.4;
+            }
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+
+          // Connect nearby particles with subtle constellation lines
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 115) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(52, 211, 153, ${0.11 * (1 - dist / 115)})`;
+              ctx.lineWidth = 0.7;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    /* ==========================================================
+       2. CORE EMAIL GENERATOR & LIVE OTP ENGINE (UNCHANGED CORE)
+       ========================================================== */
+    const ACTIVE_STORAGE_KEY = 'takaaa_active_email_v8';
+    const SAVED_STORAGE_KEY = 'takaaa_saved_emails_v8';
+    const GMAIL_BASE_KEY = 'takaaa_gmail_base_v1';
+    const MAX_SAVED_EMAILS = 3;
+
+    const PROVIDERS = [
+      { id: 'gm_direct', name: 'Server 1 (Direct)', type: 'guerrilla', proxy: 'direct' },
+      { id: 'gm_allorigins', name: 'Server 2 (Proxy A)', type: 'guerrilla', proxy: 'allorigins' },
+      { id: 'gm_codetabs', name: 'Server 3 (Proxy B)', type: 'guerrilla', proxy: 'codetabs' },
+      { id: 'mailtm_direct', name: 'Server 4 (Mail.tm)', type: 'hydra', base: 'https://api.mail.tm' }
+    ];
+
+    const customPrefixInput = document.getElementById('customPrefixInput');
+    const domainSelect = document.getElementById('domainSelect');
+    const activeEmailEl = document.getElementById('activeEmail');
+    const errorDetailEl = document.getElementById('errorDetail');
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const rerollEmailBtn = document.getElementById('rerollEmailBtn');
+    const saveEmailBtn = document.getElementById('saveEmailBtn');
+    const refreshInboxBtn = document.getElementById('refreshInboxBtn');
+    const savedSlotsContainer = document.getElementById('savedSlotsContainer');
+    const savedCountBadge = document.getElementById('savedCountBadge');
+    const clearAllSavedBtn = document.getElementById('clearAllSavedBtn');
+    const messageListEl = document.getElementById('messageList');
+    const msgCountEl = document.getElementById('msgCount');
+    const pollStatusEl = document.getElementById('pollStatus');
+    const statusBadge = document.getElementById('statusBadge');
+    const apiStatusText = document.getElementById('apiStatusText');
+    const toast = document.getElementById('toast');
+
+    // Quick Account Kit Elements
+    const genUsernameText = document.getElementById('genUsernameText');
+    const genPasswordText = document.getElementById('genPasswordText');
+    const rerollKitBtn = document.getElementById('rerollKitBtn');
+    const copyUsernameBtn = document.getElementById('copyUsernameBtn');
+    const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+    const gmailBaseInput = document.getElementById('gmailBaseInput');
+    const genGmailAliasBtn = document.getElementById('genGmailAliasBtn');
+    const aliasResultBar = document.getElementById('aliasResultBar');
+    const aliasResultText = document.getElementById('aliasResultText');
+    const copyAliasBtn = document.getElementById('copyAliasBtn');
+
+    // Modal Donate
+    const donateModal = document.getElementById('donateModal');
+    document.getElementById('openDonateTopBtn').addEventListener('click', () => donateModal.classList.add('open'));
+    document.getElementById('openDonateFooterBtn').addEventListener('click', () => donateModal.classList.add('open'));
+    document.getElementById('closeDonateBtn').addEventListener('click', () => donateModal.classList.remove('open'));
+    document.getElementById('closeDonateBottomBtn').addEventListener('click', () => donateModal.classList.remove('open'));
+    donateModal.addEventListener('click', (e) => {
+      if (e.target === donateModal) donateModal.classList.remove('open');
+    });
+
+    document.getElementById('copyNmidBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText('ID1025427601535');
+      showToast('NMID berhasil disalin!');
+    });
+
+    let currentAccount = null;
+    let savedAccounts = [];
+    let cachedBodies = {};
+    let pollTimer = null;
+    let pendingDeleteAddress = null;
+    let pendingDeleteTimer = null;
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function randomString(len) {
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        out += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return out;
+    }
+
+    function randomAlpha(len) {
+      const letters = 'abcdefghijklmnopqrstuvwxyz';
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        out += letters[Math.floor(Math.random() * letters.length)];
+      }
+      return out;
+    }
+
+    // Generate Username & Password untuk Roblox / Game / Web
+    function generateAccountCredentials() {
+      const adjectives = ['Shadow', 'Frost', 'Blaze', 'Cyber', 'Nova', 'Vortex', 'Pixel', 'Storm', 'Zenith', 'Raptor'];
+      const nouns = ['Rider', 'Wolf', 'Knight', 'Hunter', 'Gamer', 'Spark', 'Ninja', 'Titan', 'Falcon', 'Ghost'];
+      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const noun = nouns[Math.floor(Math.random() * nouns.length)];
+      const num = Math.floor(100 + Math.random() * 8999);
+      genUsernameText.textContent = `${adj}${noun}${num}`;
+
+      const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+      const lower = 'abcdefghijkmnopqrstuvwxyz';
+      const digits = '23456789';
+      const symbols = '!@#$%&*';
+      const pwd =
+        upper[Math.floor(Math.random() * upper.length)] +
+        lower[Math.floor(Math.random() * lower.length)] +
+        symbols[Math.floor(Math.random() * symbols.length)] +
+        digits[Math.floor(Math.random() * digits.length)] +
+        randomString(5) +
+        upper[Math.floor(Math.random() * upper.length)] +
+        '!';
+      genPasswordText.textContent = pwd;
+    }
+
+    rerollKitBtn.addEventListener('click', () => {
+      generateAccountCredentials();
+      showToast('Username & Password baru dibuat!');
+    });
+
+    copyUsernameBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(genUsernameText.textContent);
+      showToast(`Username disalin: ${genUsernameText.textContent}`);
+    });
+
+    copyPasswordBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(genPasswordText.textContent);
+      showToast('Password kuat berhasil disalin!');
+    });
+
+    // Generator Alias Gmail (+tag / titik) untuk situs yang memblokir temp mail
+    genGmailAliasBtn.addEventListener('click', () => {
+      const raw = gmailBaseInput.value.trim().toLowerCase();
+      if (!raw || !raw.includes('@')) {
+        showToast('Masukkan alamat Gmail yang valid terlebih dahulu!');
+        return;
+      }
+      const [userPart, domainPart] = raw.split('@');
+      if (!userPart || !domainPart) {
+        showToast('Format email tidak valid!');
+        return;
+      }
+      localStorage.setItem(GMAIL_BASE_KEY, raw);
+      const cleanUser = userPart.split('+')[0];
+      const tag = `tk${randomString(4)}`;
+      const aliasEmail = `${cleanUser}+${tag}@${domainPart}`;
+      aliasResultText.textContent = aliasEmail;
+      aliasResultBar.classList.add('visible');
+      showToast('Alias Gmail siap dipakai daftar!');
+    });
+
+    copyAliasBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(aliasResultText.textContent);
+      showToast(`Alias disalin: ${aliasResultText.textContent}`);
+    });
+
+    // Membangun username sesuai format utama: [nama_bebas].tk[4_karakter_acak]
+    function buildFormattedUsername() {
+      const rawPrefix = customPrefixInput.value
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, '');
+
+      const baseName = rawPrefix.length > 0 ? rawPrefix : `user${randomAlpha(3)}`;
+      const randomTag = `tk${randomString(4)}`;
+      return `${baseName}.${randomTag}`;
+    }
+
+    function loadSavedAccounts() {
+      try {
+        const raw = localStorage.getItem(SAVED_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        savedAccounts = Array.isArray(parsed) ? parsed.slice(0, MAX_SAVED_EMAILS) : [];
+      } catch (e) {
+        savedAccounts = [];
+      }
+    }
+
+    function persistSavedAccounts() {
+      localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(savedAccounts));
+      renderSavedVault();
+    }
+
+    function renderSavedVault() {
+      savedCountBadge.textContent = `${savedAccounts.length} / ${MAX_SAVED_EMAILS} Slot`;
+      clearAllSavedBtn.style.display = savedAccounts.length > 0 ? 'inline-flex' : 'none';
+
+      const isAlreadySaved = currentAccount && savedAccounts.some(acc => acc.address === currentAccount.address);
+      const isFull = savedAccounts.length >= MAX_SAVED_EMAILS;
+
+      saveEmailBtn.classList.remove('full-warning');
+      if (isAlreadySaved) {
+        saveEmailBtn.textContent = '✅ Sudah Tersimpan';
+      } else if (isFull) {
+        saveEmailBtn.textContent = `⚠️ Slot Penuh (${MAX_SAVED_EMAILS}/${MAX_SAVED_EMAILS})`;
+        saveEmailBtn.classList.add('full-warning');
+      } else {
+        saveEmailBtn.textContent = `💾 Simpan Email (${savedAccounts.length}/${MAX_SAVED_EMAILS})`;
+      }
+
+      savedSlotsContainer.innerHTML = '';
+
+      for (let i = 0; i < MAX_SAVED_EMAILS; i++) {
+        const acc = savedAccounts[i];
+        if (!acc) {
+          const emptyCard = document.createElement('div');
+          emptyCard.className = 'slot-card empty-slot';
+          emptyCard.innerHTML = `<span>Slot #${i + 1} Kosong</span><small>Siap diisi email baru</small>`;
+          savedSlotsContainer.appendChild(emptyCard);
+          continue;
+        }
+
+        const isCurrent = currentAccount && currentAccount.address === acc.address;
+        const isConfirming = pendingDeleteAddress === acc.address;
+
+        const card = document.createElement('div');
+        card.className = `slot-card ${isCurrent ? 'active-slot' : ''}`;
+
+        const top = document.createElement('div');
+        top.className = 'slot-top';
+        top.innerHTML = `
+          <span class="slot-badge">Slot #${i + 1} ${isCurrent ? '• AKTIF' : ''}</span>
+          <span>${acc.savedAt || 'Tersimpan'}</span>
+        `;
+
+        const emailText = document.createElement('div');
+        emailText.className = 'slot-email';
+        emailText.textContent = acc.address;
+
+        const actions = document.createElement('div');
+        actions.className = 'slot-actions';
+
+        const useBtn = document.createElement('button');
+        useBtn.type = 'button';
+        useBtn.className = 'btn-slot btn-slot-use';
+        useBtn.textContent = isCurrent ? 'Dibuka' : 'Gunakan';
+        useBtn.disabled = isCurrent;
+        useBtn.addEventListener('click', () => switchToAccount(acc));
+
+        const copySlotBtn = document.createElement('button');
+        copySlotBtn.type = 'button';
+        copySlotBtn.className = 'btn-slot btn-outline';
+        copySlotBtn.textContent = 'Salin';
+        copySlotBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(acc.address);
+          showToast(`Disalin: ${acc.address}`);
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = `btn-slot btn-slot-del ${isConfirming ? 'confirming' : ''}`;
+        delBtn.textContent = isConfirming ? 'Yakin Hapus?' : '🗑️ Hapus';
+        delBtn.title = 'Hapus email ini untuk mengosongkan slot';
+        delBtn.addEventListener('click', () => handleDeleteClick(acc));
+
+        actions.append(useBtn, copySlotBtn, delBtn);
+        card.append(top, emailText, actions);
+        savedSlotsContainer.appendChild(card);
+      }
+    }
+
+    function handleDeleteClick(account) {
+      if (pendingDeleteAddress === account.address) {
+        clearTimeout(pendingDeleteTimer);
+        pendingDeleteAddress = null;
+        deleteSavedAccount(account);
+        return;
+      }
+
+      pendingDeleteAddress = account.address;
+      renderSavedVault();
+      showToast(`Klik "Yakin Hapus?" sekali lagi untuk menghapus ${account.address}`);
+
+      clearTimeout(pendingDeleteTimer);
+      pendingDeleteTimer = setTimeout(() => {
+        pendingDeleteAddress = null;
+        renderSavedVault();
+      }, 3500);
+    }
+
+    function deleteSavedAccount(account) {
+      savedAccounts = savedAccounts.filter(acc => acc.address !== account.address);
+      persistSavedAccounts();
+      showToast(`Slot dikosongkan! ${account.address} dihapus.`);
+    }
+
+    function clearAllSavedAccounts() {
+      if (savedAccounts.length === 0) return;
+      pendingDeleteAddress = null;
+      clearTimeout(pendingDeleteTimer);
+      savedAccounts = [];
+      persistSavedAccounts();
+      showToast('Semua slot email tersimpan berhasil dihapus!');
+    }
+
+    function saveCurrentAccount() {
+      if (!currentAccount || !currentAccount.token) {
+        showToast('Tunggu email aktif terlebih dahulu!');
+        return;
+      }
+
+      if (savedAccounts.some(acc => acc.address === currentAccount.address)) {
+        showToast('Email ini sudah tersimpan di daftar!');
+        return;
+      }
+
+      if (savedAccounts.length >= MAX_SAVED_EMAILS) {
+        showToast('Slot penuh (3/3)! Klik tombol "Hapus" pada salah satu slot dulu.');
+        savedSlotsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const now = new Date();
+      const savedTime = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+      savedAccounts.push({
+        ...currentAccount,
+        savedAt: savedTime
+      });
+
+      persistSavedAccounts();
+      showToast(`Tersimpan di Slot #${savedAccounts.length}!`);
+    }
+
+    function switchToAccount(account) {
+      currentAccount = { ...account };
+      cachedBodies = {};
+      localStorage.setItem(ACTIVE_STORAGE_KEY, JSON.stringify(currentAccount));
+
+      activeEmailEl.textContent = currentAccount.address;
+      apiStatusText.textContent = `Aktif • ${currentAccount.serverName || 'Saved Inbox'}`;
+      statusBadge.classList.remove('error');
+      errorDetailEl.style.display = 'none';
+
+      renderSavedVault();
+      renderEmptyInbox();
+      startPolling();
+      showToast(`Membuka inbox ${currentAccount.address}`);
+    }
+
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 6000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function wrapGuerrillaUrl(queryParams, proxyMode) {
+      const targetUrl = `https://api.guerrillamail.com/ajax.php?${queryParams}&_cb=${Date.now()}`;
+      if (proxyMode === 'allorigins') {
+        return `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+      }
+      if (proxyMode === 'codetabs') {
+        return `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+      }
+      return targetUrl;
+    }
+
+    async function createOnProvider(provider) {
+      const selectedDomain = domainSelect.value || 'sharklasers.com';
+      const formattedUser = buildFormattedUsername();
+
+      if (provider.type === 'guerrilla') {
+        const url = wrapGuerrillaUrl('f=get_email_address&lang=en', provider.proxy);
+        const res = await fetchWithTimeout(url, {}, 6500);
+        if (!res.ok) throw new Error(`${provider.name} HTTP ${res.status}`);
+        const data = await res.json();
+        if (!data.email_addr || !data.sid_token) {
+          throw new Error(`${provider.name} data kosong`);
+        }
+
+        const setUrl = wrapGuerrillaUrl(
+          `f=set_email_user&email_user=${encodeURIComponent(formattedUser)}&lang=en&sid_token=${encodeURIComponent(data.sid_token)}`,
+          provider.proxy
+        );
+        let baseAddr = data.email_addr;
+        let finalToken = data.sid_token;
+
+        try {
+          const setRes = await fetchWithTimeout(setUrl, {}, 5500);
+          if (setRes.ok) {
+            const setData = await setRes.json();
+            if (setData.email_addr) baseAddr = setData.email_addr;
+            if (setData.sid_token) finalToken = setData.sid_token;
+          }
+        } catch (e) {}
+
+        const usernamePart = baseAddr.split('@')[0];
+        const finalAddr = `${usernamePart}@${selectedDomain}`;
+
+        return {
+          type: 'guerrilla',
+          proxy: provider.proxy,
+          serverName: provider.name,
+          address: finalAddr,
+          token: finalToken
+        };
+      }
+
+      const domainRes = await fetchWithTimeout(`${provider.base}/domains`, { cache: 'no-store' }, 5000);
+      if (!domainRes.ok) throw new Error(`${provider.name} HTTP ${domainRes.status}`);
+      const domainData = await domainRes.json();
+      const domains = domainData['hydra:member'] || [];
+      const activeDomain = domains.find((d) => d.isActive);
+      if (!activeDomain) throw new Error(`${provider.name} domain kosong`);
+
+      const address = `${formattedUser}@${activeDomain.domain}`;
+      const password = `Tk#${randomString(10)}`;
+
+      const accRes = await fetchWithTimeout(`${provider.base}/accounts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, password })
+      }, 5000);
+      if (!accRes.ok) throw new Error(`${provider.name} HTTP ${accRes.status}`);
+
+      const tokenRes = await fetchWithTimeout(`${provider.base}/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, password })
+      }, 5000);
+      if (!tokenRes.ok) throw new Error(`${provider.name} token gagal`);
+      const tokenData = await tokenRes.json();
+
+      return {
+        type: 'hydra',
+        base: provider.base,
+        serverName: provider.name,
+        address,
+        token: tokenData.token
+      };
+    }
+
+    async function createNewAccount() {
+      rerollEmailBtn.disabled = true;
+      errorDetailEl.style.display = 'none';
+      statusBadge.classList.remove('error');
+      activeEmailEl.textContent = 'Membuat email baru...';
+      apiStatusText.textContent = 'Memproses...';
+      cachedBodies = {};
+
+      let errors = [];
+
+      for (const provider of PROVIDERS) {
+        try {
+          const account = await createOnProvider(provider);
+
+          currentAccount = account;
+          localStorage.setItem(ACTIVE_STORAGE_KEY, JSON.stringify(currentAccount));
+
+          activeEmailEl.textContent = account.address;
+          apiStatusText.textContent = `Aktif • ${account.serverName}`;
+          showToast(`Email aktif: ${account.address}`);
+
+          renderSavedVault();
+          renderEmptyInbox();
+          startPolling();
+          rerollEmailBtn.disabled = false;
+          return;
+        } catch (err) {
+          const reason = err.name === 'AbortError' ? `${provider.name} Timeout` : err.message;
+          errors.push(reason);
+        }
+      }
+
+      statusBadge.classList.add('error');
+      activeEmailEl.textContent = 'Gagal terhubung ke server';
+      apiStatusText.textContent = 'Gagal Terhubung';
+      errorDetailEl.style.display = 'block';
+      errorDetailEl.innerHTML = `
+        <strong>Log Koneksi:</strong> ${errors.join(' | ')}.<br>
+        Operator seluler Anda memblokir jalur API. Aktifkan <strong>DNS Pribadi (dns.google)</strong> di Pengaturan HP lalu tekan <strong>Buat / Reroll Email</strong>.
+      `;
+      rerollEmailBtn.disabled = false;
+    }
+
+    customPrefixInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        createNewAccount();
+      }
+    });
+
+    customPrefixInput.addEventListener('input', () => {
+      const cleaned = customPrefixInput.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
+      if (customPrefixInput.value !== cleaned) {
+        customPrefixInput.value = cleaned;
+      }
+    });
+
+    domainSelect.addEventListener('change', () => {
+      if (!currentAccount || currentAccount.type !== 'guerrilla') return;
+      const usernamePart = currentAccount.address.split('@')[0];
+      currentAccount.address = `${usernamePart}@${domainSelect.value}`;
+      localStorage.setItem(ACTIVE_STORAGE_KEY, JSON.stringify(currentAccount));
+      activeEmailEl.textContent = currentAccount.address;
+      renderSavedVault();
+      showToast(`Domain diganti ke ${currentAccount.address}`);
+    });
+
+    function stripHtml(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    function extractOtpCode(text) {
+      if (!text) return null;
+      const matches = text.match(/\b\d{4,8}\b/g);
+      if (!matches) return null;
+      const filtered = matches.filter((num) => !['2024', '2025', '2026', '2027'].includes(num));
+      return filtered.length > 0 ? filtered[0] : matches[0];
+    }
+
+    function extractVerificationLink(rawHtmlOrText) {
+      if (!rawHtmlOrText) return null;
+      const urlMatches = rawHtmlOrText.match(/https?:\/\/[^\s"'<>]+/gi);
+      if (!urlMatches) return null;
+      const keywords = ['verify', 'confirm', 'activate', 'token', 'validation', 'auth', 'roblox', 'login'];
+      const prioritized = urlMatches.find((u) =>
+        keywords.some((kw) => u.toLowerCase().includes(kw)) &&
+        !u.toLowerCase().includes('unsubscribe') &&
+        !u.toLowerCase().includes('.png') &&
+        !u.toLowerCase().includes('.jpg')
+      );
+      return prioritized || null;
+    }
+
+    function renderEmptyInbox() {
+      msgCountEl.textContent = '0 Pesan';
+      messageListEl.innerHTML = `
+        <div class="empty-inbox">
+          Belum ada pesan masuk untuk <strong>${currentAccount?.address || 'akun ini'}</strong>. Tunggu beberapa detik hingga kode OTP atau link verifikasi muncul di sini.
+        </div>
+      `;
+    }
+
+    async function fetchMessagesList() {
+      if (currentAccount.type === 'guerrilla') {
+        const listUrl = wrapGuerrillaUrl(
+          `f=check_email&seq=0&sid_token=${encodeURIComponent(currentAccount.token)}`,
+          currentAccount.proxy
+        );
+        const res = await fetchWithTimeout(listUrl, {}, 7000);
+        if (!res.ok) throw new Error('Gagal cek inbox');
+        const data = await res.json();
+        const rawList = (data.list || []).filter(
+          (m) => !(String(m.mail_id) === '1' && String(m.mail_from || '').includes('guerrillamail.com'))
+        );
+
+        const normalized = [];
+        for (const msg of rawList) {
+          let cached = cachedBodies[msg.mail_id];
+          if (!cached) {
+            const fetchUrl = wrapGuerrillaUrl(
+              `f=fetch_email&email_id=${encodeURIComponent(msg.mail_id)}&sid_token=${encodeURIComponent(currentAccount.token)}`,
+              currentAccount.proxy
+            );
+            const detailRes = await fetchWithTimeout(fetchUrl, {}, 7000);
+            const detailData = await detailRes.json();
+            const rawBody = detailData.mail_body || msg.mail_excerpt || '';
+            cached = {
+              text: stripHtml(rawBody || '(Tanpa isi teks)'),
+              raw: rawBody
+            };
+            cachedBodies[msg.mail_id] = cached;
+          }
+
+          const ts = Number(msg.mail_timestamp) * 1000 || Date.now();
+          normalized.push({
+            sender: msg.mail_from || 'Pengirim',
+            subject: msg.mail_subject || '(Tanpa Subjek)',
+            date: ts,
+            body: cached.text,
+            raw: cached.raw
+          });
+        }
+        return normalized;
+      }
+
+      const res = await fetchWithTimeout(`${currentAccount.base}/messages`, {
+        headers: { Authorization: `Bearer ${currentAccount.token}` },
+        cache: 'no-store'
+      }, 6000);
+      if (res.status === 401) throw new Error('Token expired');
+      const data = await res.json();
+      const rawList = data['hydra:member'] || [];
+      const normalized = [];
+
+      for (const msg of rawList) {
+        let cached = cachedBodies[msg.id];
+        if (!cached) {
+          const detailRes = await fetchWithTimeout(`${currentAccount.base}/messages/${msg.id}`, {
+            headers: { Authorization: `Bearer ${currentAccount.token}` },
+            cache: 'no-store'
+          }, 6000);
+          const detailData = await detailRes.json();
+          const htmlContent = Array.isArray(detailData.html) ? detailData.html.join(' ') : (detailData.html || '');
+          const plainText = detailData.text || stripHtml(htmlContent) || msg.intro || '(Tanpa isi teks)';
+          cached = {
+            text: plainText,
+            raw: `${htmlContent} ${plainText}`
+          };
+          cachedBodies[msg.id] = cached;
+        }
+        normalized.push({
+          sender: msg.from?.address || 'Pengirim',
+          subject: msg.subject || '(Tanpa Subjek)',
+          date: msg.createdAt,
+          body: cached.text,
+          raw: cached.raw
+        });
+      }
+      return normalized;
+    }
+
+    async function checkInbox() {
+      if (!currentAccount || !currentAccount.token) return;
+      pollStatusEl.textContent = 'Memeriksa pesan masuk...';
+
+      try {
+        const messages = await fetchMessagesList();
+        msgCountEl.textContent = `${messages.length} Pesan`;
+
+        if (messages.length === 0) {
+          pollStatusEl.textContent = 'Menunggu OTP masuk (auto-cek 5 dtk)...';
+          return;
+        }
+
+        messageListEl.innerHTML = '';
+
+        for (const msg of messages) {
+          const otpCode = extractOtpCode(`${msg.subject} ${msg.body}`);
+          const verifyUrl = extractVerificationLink(msg.raw || msg.body);
+
+          const card = document.createElement('div');
+          card.className = 'msg-card';
+
+          const top = document.createElement('div');
+          top.className = 'msg-top';
+
+          const sender = document.createElement('span');
+          sender.className = 'msg-sender';
+          sender.textContent = msg.sender;
+
+          const time = document.createElement('span');
+          time.className = 'msg-time';
+          time.textContent = new Date(msg.date).toLocaleTimeString('id-ID');
+
+          top.append(sender, time);
+
+          const subject = document.createElement('div');
+          subject.className = 'msg-subject';
+          subject.textContent = msg.subject;
+
+          card.append(top, subject);
+
+          if (otpCode) {
+            const otpBox = document.createElement('div');
+            otpBox.className = 'otp-highlight';
+
+            const codeSpan = document.createElement('span');
+            codeSpan.className = 'otp-code';
+            codeSpan.textContent = otpCode;
+
+            const copyOtpBtn = document.createElement('button');
+            copyOtpBtn.type = 'button';
+            copyOtpBtn.className = 'btn-copy-main';
+            copyOtpBtn.textContent = 'Salin OTP';
+            copyOtpBtn.addEventListener('click', () => {
+              navigator.clipboard.writeText(otpCode);
+              showToast(`Kode OTP ${otpCode} disalin!`);
+            });
+
+            otpBox.append(codeSpan, copyOtpBtn);
+            card.appendChild(otpBox);
+          }
+
+          if (verifyUrl) {
+            const linkBox = document.createElement('div');
+            linkBox.className = 'verify-link-bar';
+
+            const label = document.createElement('span');
+            label.className = 'verify-link-label';
+            label.textContent = '🔗 Tautan Verifikasi Akun Terdeteksi';
+
+            const openLinkBtn = document.createElement('a');
+            openLinkBtn.href = verifyUrl;
+            openLinkBtn.target = '_blank';
+            openLinkBtn.rel = 'noopener noreferrer';
+            openLinkBtn.className = 'btn-link btn-verify-open';
+            openLinkBtn.textContent = 'Buka Verifikasi ↗';
+
+            linkBox.append(label, openLinkBtn);
+            card.appendChild(linkBox);
+          }
+
+          const bodyEl = document.createElement('div');
+          bodyEl.className = 'msg-body';
+          bodyEl.textContent = msg.body.trim();
+
+          card.appendChild(bodyEl);
+          messageListEl.appendChild(card);
+        }
+
+        pollStatusEl.textContent = `Terakhir dicek: ${new Date().toLocaleTimeString('id-ID')}`;
+      } catch (err) {
+        pollStatusEl.textContent = 'Mencoba menghubungkan ulang inbox...';
+      }
+    }
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      checkInbox();
+      pollTimer = setInterval(checkInbox, 5000);
+    }
+
+    copyEmailBtn.addEventListener('click', () => {
+      if (!currentAccount?.address) return;
+      navigator.clipboard.writeText(currentAccount.address);
+      showToast(`Disalin: ${currentAccount.address}`);
+    });
+
+    rerollEmailBtn.addEventListener('click', createNewAccount);
+    saveEmailBtn.addEventListener('click', saveCurrentAccount);
+    refreshInboxBtn.addEventListener('click', checkInbox);
+    clearAllSavedBtn.addEventListener('click', clearAllSavedAccounts);
+
+    (function init() {
+      generateAccountCredentials();
+
+      const savedGmailBase = localStorage.getItem(GMAIL_BASE_KEY);
+      if (savedGmailBase) {
+        gmailBaseInput.value = savedGmailBase;
+      }
+
+      loadSavedAccounts();
+      renderSavedVault();
+
+      const savedActive = localStorage.getItem(ACTIVE_STORAGE_KEY);
+      if (savedActive) {
+        try {
+          currentAccount = JSON.parse(savedActive);
+          if (currentAccount?.address && currentAccount?.token) {
+            const domainPart = currentAccount.address.split('@')[1];
+            if (domainPart && [...domainSelect.options].some(o => o.value === domainPart)) {
+              domainSelect.value = domainPart;
+            }
+            activeEmailEl.textContent = currentAccount.address;
+            apiStatusText.textContent = `Aktif • ${currentAccount.serverName || 'Inbox Siap'}`;
+            renderSavedVault();
+            startPolling();
+            return;
+          }
+        } catch (e) {}
+      }
+      createNewAccount();
+    })();
+  </script>
+</body>
+</html>
