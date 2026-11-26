@@ -476,7 +476,7 @@
       background-color: var(--primary-light);
     }
 
-    /* Quick Registration Kit (Roblox, Game, App & Web) */
+    /* Mode Anti-Blokir (Alias Gmail & Penyimpanan Terpisah) */
     .kit-header {
       display: flex;
       justify-content: space-between;
@@ -504,55 +504,6 @@
       border: 1px solid rgba(139, 92, 246, 0.38);
     }
 
-    .kit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .cred-box {
-      background: rgba(24, 34, 56, 0.65);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cred-label {
-      font-size: 0.74rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cred-value-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .cred-code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #e2e8f0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .cred-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
     .btn-mini {
       padding: 6px 10px;
       font-size: 0.75rem;
@@ -570,7 +521,7 @@
 
     .alias-helper-box {
       background: rgba(15, 23, 42, 0.6);
-      border: 1px dashed rgba(139, 92, 246, 0.35);
+      border: 1px dashed rgba(139, 92, 246, 0.38);
       border-radius: 14px;
       padding: 14px;
     }
@@ -585,8 +536,8 @@
     }
 
     .alias-helper-top span {
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
       color: #c4b5fd;
     }
 
@@ -616,12 +567,13 @@
     .alias-result-bar {
       display: none;
       margin-top: 10px;
-      padding: 9px 12px;
+      padding: 10px 12px;
       border-radius: 10px;
       background: rgba(139, 92, 246, 0.14);
       border: 1px solid rgba(139, 92, 246, 0.35);
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
@@ -631,13 +583,121 @@
 
     .alias-result-text {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #ddd6fe;
       word-break: break-all;
+      flex: 1;
     }
 
-    /* Saved Accounts Vault (Max 3) */
+    .alias-result-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-save-alias {
+      background: rgba(139, 92, 246, 0.25);
+      color: #ede9fe;
+      border: 1px solid rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-save-alias:hover {
+      background: #8b5cf6;
+      color: #ffffff;
+    }
+
+    /* Vault Penyimpanan Alias Gmail (Terpisah dari Email Sementara) */
+    .alias-vault-section {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(139, 92, 246, 0.22);
+    }
+
+    .alias-vault-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .alias-vault-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ddd6fe;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alias-badge-count {
+      background: rgba(139, 92, 246, 0.22);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .alias-saved-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .alias-empty-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 12px;
+      border: 1px dashed rgba(139, 92, 246, 0.25);
+      border-radius: 10px;
+      background: rgba(24, 34, 56, 0.35);
+    }
+
+    .alias-saved-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: rgba(24, 34, 56, 0.65);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 10px;
+      padding: 9px 12px;
+    }
+
+    .alias-saved-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .alias-saved-email {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ede9fe;
+      word-break: break-all;
+    }
+
+    .alias-saved-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .alias-saved-btns {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Saved Accounts Vault (Max 3 - Virtual Email) */
     .vault-header {
       display: flex;
       justify-content: space-between;
@@ -1107,7 +1167,7 @@
     <header>
       <div class="creator-tag">Official OTP & Gaming Account Kit by <span>TAKAAA</span></div>
       <h1>Virtual Email & <span class="gradient-text">Live OTP</span> Receiver</h1>
-      <p>Format otomatis <strong>nama.tkXXXX@domain</strong>, simpan hingga 3 akun, lengkap dengan generator identitas pendaftaran Roblox, game, aplikasi, dan web.</p>
+      <p>Format otomatis <strong>nama.tkXXXX@domain</strong>, simpan hingga 3 akun, lengkap dengan generator alias Gmail untuk pendaftaran Roblox, game, aplikasi, dan web.</p>
     </header>
 
     <!-- Card Utama Generator & Custom Prefix -->
@@ -1161,48 +1221,19 @@
       </div>
     </div>
 
-    <!-- Card Quick Account Kit untuk Roblox, Game, Aplikasi & Web -->
+    <!-- Card Mode Anti-Blokir Platform Ketat (Alias Gmail + Penyimpanan Terpisah) -->
     <div class="card">
       <div class="kit-header">
         <div class="kit-title">
-          <span>🎮 Quick Account Kit</span>
+          <span>🛡️ Mode Anti-Blokir Platform Ketat</span>
           <span class="kit-badge">Roblox • Game • Web • App</span>
-        </div>
-        <button type="button" class="btn-mini" id="rerollKitBtn">🔄 Acak Identitas</button>
-      </div>
-
-      <div class="kit-grid">
-        <div class="cred-box">
-          <div class="cred-label">
-            <span>Username Siap Pakai (Roblox / Game)</span>
-            <span>3-20 huruf/angka</span>
-          </div>
-          <div class="cred-value-row">
-            <span class="cred-code" id="genUsernameText">TakaaaPlayer99</span>
-            <div class="cred-actions">
-              <button type="button" class="btn-mini" id="copyUsernameBtn">Salin</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="cred-box">
-          <div class="cred-label">
-            <span>Password Kuat Otomatis</span>
-            <span>Lolos Syarat Web</span>
-          </div>
-          <div class="cred-value-row">
-            <span class="cred-code" id="genPasswordText">Tk#9482xZ!</span>
-            <div class="cred-actions">
-              <button type="button" class="btn-mini" id="copyPasswordBtn">Salin</button>
-            </div>
-          </div>
         </div>
       </div>
 
       <!-- Bypass Filter Ketat via Gmail Plus/Dot Alias -->
       <div class="alias-helper-box">
         <div class="alias-helper-top">
-          <span>🛡️ Mode Anti-Blokir Platform Ketat (Alias Gmail Tanpa Batas)</span>
+          <span>Alias Gmail Tanpa Batas (OTP masuk ke inbox Gmail utama Anda)</span>
         </div>
         <div class="alias-input-row">
           <input
@@ -1216,18 +1247,34 @@
             ✨ Buat Alias
           </button>
         </div>
+
         <div class="alias-result-bar" id="aliasResultBar">
           <span class="alias-result-text" id="aliasResultText">nama+tk8821@gmail.com</span>
-          <button type="button" class="btn-mini" id="copyAliasBtn">Salin Alias</button>
+          <div class="alias-result-actions">
+            <button type="button" class="btn-mini" id="copyAliasBtn">Salin Alias</button>
+            <button type="button" class="btn-mini btn-save-alias" id="saveAliasBtn">💾 Simpan Alias</button>
+          </div>
+        </div>
+
+        <!-- Penyimpanan Khusus Alias Gmail (Terpisah dari Email Sementara) -->
+        <div class="alias-vault-section">
+          <div class="alias-vault-header">
+            <div class="alias-vault-title">
+              <span>📂 Alias Gmail Tersimpan</span>
+              <span class="alias-badge-count" id="aliasSavedCountBadge">0 / 5 Alias</span>
+            </div>
+            <button type="button" class="btn-clear-all" id="clearAllAliasBtn" style="display: none;">🗑️ Hapus Semua Alias</button>
+          </div>
+          <div class="alias-saved-list" id="aliasSavedListContainer"></div>
         </div>
       </div>
     </div>
 
-    <!-- Card Penyimpanan Maksimal 3 Email -->
+    <!-- Card Penyimpanan Maksimal 3 Email Sementara -->
     <div class="card">
       <div class="vault-header">
         <div class="vault-title">
-          <span>📌 Email Tersimpan</span>
+          <span>📌 Email Sementara Tersimpan</span>
           <span class="badge-count" id="savedCountBadge">0 / 3 Slot</span>
         </div>
         <div class="vault-header-right">
@@ -1341,7 +1388,6 @@
           if (p.x < 0 || p.x > width) p.vx *= -1;
           if (p.y < 0 || p.y > height) p.vy *= -1;
 
-          // Subtle mouse repulsion
           if (mouse.x !== null && mouse.y !== null) {
             const dx = p.x - mouse.x;
             const dy = p.y - mouse.y;
@@ -1358,7 +1404,6 @@
           ctx.fillStyle = p.color;
           ctx.fill();
 
-          // Connect nearby particles with subtle constellation lines
           for (let j = i + 1; j < particles.length; j++) {
             const p2 = particles[j];
             const dx = p.x - p2.x;
@@ -1380,12 +1425,14 @@
     })();
 
     /* ==========================================================
-       2. CORE EMAIL GENERATOR & LIVE OTP ENGINE (UNCHANGED CORE)
+       2. CORE EMAIL GENERATOR & LIVE OTP ENGINE
        ========================================================== */
     const ACTIVE_STORAGE_KEY = 'takaaa_active_email_v8';
     const SAVED_STORAGE_KEY = 'takaaa_saved_emails_v8';
     const GMAIL_BASE_KEY = 'takaaa_gmail_base_v1';
+    const SAVED_ALIAS_STORAGE_KEY = 'takaaa_saved_gmail_aliases_v1';
     const MAX_SAVED_EMAILS = 3;
+    const MAX_SAVED_ALIASES = 5;
 
     const PROVIDERS = [
       { id: 'gm_direct', name: 'Server 1 (Direct)', type: 'guerrilla', proxy: 'direct' },
@@ -1412,17 +1459,16 @@
     const apiStatusText = document.getElementById('apiStatusText');
     const toast = document.getElementById('toast');
 
-    // Quick Account Kit Elements
-    const genUsernameText = document.getElementById('genUsernameText');
-    const genPasswordText = document.getElementById('genPasswordText');
-    const rerollKitBtn = document.getElementById('rerollKitBtn');
-    const copyUsernameBtn = document.getElementById('copyUsernameBtn');
-    const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+    // Gmail Alias & Separate Vault Elements
     const gmailBaseInput = document.getElementById('gmailBaseInput');
     const genGmailAliasBtn = document.getElementById('genGmailAliasBtn');
     const aliasResultBar = document.getElementById('aliasResultBar');
     const aliasResultText = document.getElementById('aliasResultText');
     const copyAliasBtn = document.getElementById('copyAliasBtn');
+    const saveAliasBtn = document.getElementById('saveAliasBtn');
+    const aliasSavedCountBadge = document.getElementById('aliasSavedCountBadge');
+    const clearAllAliasBtn = document.getElementById('clearAllAliasBtn');
+    const aliasSavedListContainer = document.getElementById('aliasSavedListContainer');
 
     // Modal Donate
     const donateModal = document.getElementById('donateModal');
@@ -1441,6 +1487,8 @@
 
     let currentAccount = null;
     let savedAccounts = [];
+    let savedAliases = [];
+    let currentGeneratedAlias = '';
     let cachedBodies = {};
     let pollTimer = null;
     let pendingDeleteAddress = null;
@@ -1470,46 +1518,88 @@
       return out;
     }
 
-    // Generate Username & Password untuk Roblox / Game / Web
-    function generateAccountCredentials() {
-      const adjectives = ['Shadow', 'Frost', 'Blaze', 'Cyber', 'Nova', 'Vortex', 'Pixel', 'Storm', 'Zenith', 'Raptor'];
-      const nouns = ['Rider', 'Wolf', 'Knight', 'Hunter', 'Gamer', 'Spark', 'Ninja', 'Titan', 'Falcon', 'Ghost'];
-      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-      const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const num = Math.floor(100 + Math.random() * 8999);
-      genUsernameText.textContent = `${adj}${noun}${num}`;
-
-      const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-      const lower = 'abcdefghijkmnopqrstuvwxyz';
-      const digits = '23456789';
-      const symbols = '!@#$%&*';
-      const pwd =
-        upper[Math.floor(Math.random() * upper.length)] +
-        lower[Math.floor(Math.random() * lower.length)] +
-        symbols[Math.floor(Math.random() * symbols.length)] +
-        digits[Math.floor(Math.random() * digits.length)] +
-        randomString(5) +
-        upper[Math.floor(Math.random() * upper.length)] +
-        '!';
-      genPasswordText.textContent = pwd;
+    /* ==========================================================
+       ALIAS GMAIL & PENYIMPANAN TERPISAH (SAVED_ALIAS_STORAGE_KEY)
+       ========================================================== */
+    function loadSavedAliases() {
+      try {
+        const raw = localStorage.getItem(SAVED_ALIAS_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        savedAliases = Array.isArray(parsed) ? parsed.slice(0, MAX_SAVED_ALIASES) : [];
+      } catch (e) {
+        savedAliases = [];
+      }
     }
 
-    rerollKitBtn.addEventListener('click', () => {
-      generateAccountCredentials();
-      showToast('Username & Password baru dibuat!');
-    });
+    function persistSavedAliases() {
+      localStorage.setItem(SAVED_ALIAS_STORAGE_KEY, JSON.stringify(savedAliases));
+      renderAliasVault();
+    }
 
-    copyUsernameBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(genUsernameText.textContent);
-      showToast(`Username disalin: ${genUsernameText.textContent}`);
-    });
+    function renderAliasVault() {
+      aliasSavedCountBadge.textContent = `${savedAliases.length} / ${MAX_SAVED_ALIASES} Alias`;
+      clearAllAliasBtn.style.display = savedAliases.length > 0 ? 'inline-flex' : 'none';
 
-    copyPasswordBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(genPasswordText.textContent);
-      showToast('Password kuat berhasil disalin!');
-    });
+      const isAlreadySaved = currentGeneratedAlias && savedAliases.some(item => item.alias === currentGeneratedAlias);
+      if (isAlreadySaved) {
+        saveAliasBtn.textContent = '✅ Tersimpan';
+      } else {
+        saveAliasBtn.textContent = '💾 Simpan Alias';
+      }
 
-    // Generator Alias Gmail (+tag / titik) untuk situs yang memblokir temp mail
+      aliasSavedListContainer.innerHTML = '';
+
+      if (savedAliases.length === 0) {
+        aliasSavedListContainer.innerHTML = `
+          <div class="alias-empty-note">
+            Belum ada Alias Gmail tersimpan. Buat alias di atas lalu klik <strong>Simpan Alias</strong> (tersimpan terpisah dari email sementara).
+          </div>
+        `;
+        return;
+      }
+
+      savedAliases.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'alias-saved-item';
+
+        const info = document.createElement('div');
+        info.className = 'alias-saved-info';
+        info.innerHTML = `
+          <span class="alias-saved-email">${item.alias}</span>
+          <span class="alias-saved-meta">Slot Alias #${idx + 1} • Disimpan ${item.savedAt || ''}</span>
+        `;
+
+        const btns = document.createElement('div');
+        btns.className = 'alias-saved-btns';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'btn-mini';
+        copyBtn.textContent = 'Salin';
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(item.alias);
+          showToast(`Alias disalin: ${item.alias}`);
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn-slot-del';
+        delBtn.style.padding = '5px 9px';
+        delBtn.style.fontSize = '0.72rem';
+        delBtn.textContent = '🗑️';
+        delBtn.title = 'Hapus alias ini';
+        delBtn.addEventListener('click', () => {
+          savedAliases = savedAliases.filter(a => a.alias !== item.alias);
+          persistSavedAliases();
+          showToast(`Alias ${item.alias} dihapus!`);
+        });
+
+        btns.append(copyBtn, delBtn);
+        row.append(info, btns);
+        aliasSavedListContainer.appendChild(row);
+      });
+    }
+
     genGmailAliasBtn.addEventListener('click', () => {
       const raw = gmailBaseInput.value.trim().toLowerCase();
       if (!raw || !raw.includes('@')) {
@@ -1524,18 +1614,52 @@
       localStorage.setItem(GMAIL_BASE_KEY, raw);
       const cleanUser = userPart.split('+')[0];
       const tag = `tk${randomString(4)}`;
-      const aliasEmail = `${cleanUser}+${tag}@${domainPart}`;
-      aliasResultText.textContent = aliasEmail;
+      currentGeneratedAlias = `${cleanUser}+${tag}@${domainPart}`;
+      aliasResultText.textContent = currentGeneratedAlias;
       aliasResultBar.classList.add('visible');
+      renderAliasVault();
       showToast('Alias Gmail siap dipakai daftar!');
     });
 
     copyAliasBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(aliasResultText.textContent);
-      showToast(`Alias disalin: ${aliasResultText.textContent}`);
+      if (!currentGeneratedAlias) return;
+      navigator.clipboard.writeText(currentGeneratedAlias);
+      showToast(`Alias disalin: ${currentGeneratedAlias}`);
     });
 
-    // Membangun username sesuai format utama: [nama_bebas].tk[4_karakter_acak]
+    saveAliasBtn.addEventListener('click', () => {
+      if (!currentGeneratedAlias) {
+        showToast('Buat alias terlebih dahulu!');
+        return;
+      }
+      if (savedAliases.some(item => item.alias === currentGeneratedAlias)) {
+        showToast('Alias ini sudah tersimpan di daftar!');
+        return;
+      }
+      if (savedAliases.length >= MAX_SAVED_ALIASES) {
+        showToast(`Slot Alias penuh (${MAX_SAVED_ALIASES}/${MAX_SAVED_ALIASES})! Hapus salah satu alias dulu.`);
+        return;
+      }
+      const now = new Date();
+      const savedTime = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      savedAliases.push({
+        alias: currentGeneratedAlias,
+        savedAt: savedTime
+      });
+      persistSavedAliases();
+      showToast(`Alias disimpan di Slot Alias #${savedAliases.length}!`);
+    });
+
+    clearAllAliasBtn.addEventListener('click', () => {
+      if (savedAliases.length === 0) return;
+      savedAliases = [];
+      persistSavedAliases();
+      showToast('Semua Alias Gmail tersimpan berhasil dihapus!');
+    });
+
+    /* ==========================================================
+       VIRTUAL EMAIL GENERATOR & PENYIMPANAN UTAMA (SAVED_STORAGE_KEY)
+       ========================================================== */
     function buildFormattedUsername() {
       const rawPrefix = customPrefixInput.value
         .trim()
@@ -2111,12 +2235,13 @@
     clearAllSavedBtn.addEventListener('click', clearAllSavedAccounts);
 
     (function init() {
-      generateAccountCredentials();
-
       const savedGmailBase = localStorage.getItem(GMAIL_BASE_KEY);
       if (savedGmailBase) {
         gmailBaseInput.value = savedGmailBase;
       }
+
+      loadSavedAliases();
+      renderAliasVault();
 
       loadSavedAccounts();
       renderSavedVault();
